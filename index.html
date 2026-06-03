@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Interativo Agrinho Paraná</title>
+    <title>Portal Completo Agrinho Paraná</title>
     <style>
         /* Reset e Estilos Gerais */
         * {
@@ -14,7 +14,7 @@
         }
 
         body {
-            background-color: #f8f9fa; /* Fundo cinza bem claro, quase branco */
+            background-color: #f8f9fa;
             color: #2d3748;
             display: flex;
             flex-direction: column;
@@ -34,7 +34,6 @@
             font-size: 2.8rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            letter-spacing: -1px;
         }
 
         header p {
@@ -43,130 +42,178 @@
         }
 
         main {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             margin: 2rem auto;
             padding: 0 1.5rem;
             flex: 1;
         }
 
-        /* Seção Sobre */
-        .sobre {
+        /* Seções do Site */
+        section {
             background: #ffffff;
             padding: 2rem;
             border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border-left: 6px solid #2e7d32;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
 
-        .sobre h2 {
+        h2 {
             color: #2e7d32;
-            margin-bottom: 0.75rem;
-            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #f0fdf4;
+            padding-bottom: 0.5rem;
         }
 
-        .sobre p {
-            line-height: 1.6;
+        /* 1. ESTILO DA GALERIA DE IMAGENS */
+        .galeria-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 1.5rem;
+        }
+
+        .card-imagem {
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+
+        .card-imagem:hover {
+            transform: scale(1.03);
+        }
+
+        .card-imagem img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-imagem p {
+            padding: 1rem;
+            font-size: 0.95rem;
             color: #4a5568;
-        }
-
-        /* Seção do Jogo */
-        .jogo-container {
-            background: #ffffff;
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            font-weight: 500;
             text-align: center;
         }
 
-        .jogo-container h2 {
-            color: #2e7d32;
-            margin-bottom: 0.5rem;
-            font-size: 1.6rem;
-        }
-
-        .jogo-container > p {
-            color: #718096;
-            margin-bottom: 1.5rem;
+        /* 2. ESTILO DO JOGO DA MEMÓRIA */
+        .jogo-container {
+            text-align: center;
         }
 
         .placar {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
             color: #2e7d32;
             background: #e8f5e9;
             display: inline-block;
-            padding: 0.5rem 1.5rem;
+            padding: 0.4rem 1.2rem;
             border-radius: 50px;
         }
 
-        /* Grid do Jogo da Memória */
         .grid-memoria {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 450px;
+            gap: 12px;
+            max-width: 400px;
             margin: 0 auto;
         }
 
         .carta {
-            aspect-ratio: 1; /* Garante que as cartas sejam sempre quadradas */
-            background-color: #2e7d32; /* Verde apenas no verso da carta */
-            border-radius: 10px;
+            aspect-ratio: 1;
+            background-color: #2e7d32;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: transparent;
-            transition: transform 0.3s, background-color 0.3s, box-shadow 0.2s;
+            transition: transform 0.3s, background-color 0.3s;
             user-select: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
         }
 
-        .carta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-
-        .carta.virada {
+        .carta.virada, .carta.combinada {
             background-color: #ffffff;
             border: 3px solid #2e7d32;
-            color: #000000 !important; /* Força o emoji a aparecer */
+            color: #000000 !important;
             transform: rotateY(180deg);
             cursor: default;
         }
 
         .carta.combinada {
+            border-color: #8bc34a;
             background-color: #f0fdf4;
-            border: 3px solid #8bc34a;
-            color: #000000 !important;
-            cursor: default;
-            transform: rotateY(180deg);
-            box-shadow: none;
         }
 
-        /* Botão Reiniciar */
-        .btn-reiniciar {
-            margin-top: 2.5rem;
-            padding: 0.8rem 2rem;
+        /* 3. ESTILO DO QUIZ */
+        .quiz-container {
+            background: #ffffff;
+        }
+
+        .pergunta {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2d3748;
+        }
+
+        .opcoes-quiz {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-opcao {
+            padding: 0.8rem 1rem;
+            background-color: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
             font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-opcao:hover {
+            background-color: #e2e8f0;
+            border-color: #cbd5e1;
+        }
+
+        .btn-opcao.correta {
+            background-color: #dcfce7;
+            border-color: #2e7d32;
+            color: #14532d;
+        }
+
+        .btn-opcao.errada {
+            background-color: #fee2e2;
+            border-color: #ef4444;
+            color: #7f1d1d;
+        }
+
+        /* Botões Gerais */
+        .btn-acao {
+            margin-top: 1.5rem;
+            padding: 0.7rem 1.5rem;
+            font-size: 0.95rem;
             font-weight: 600;
             background-color: #2e7d32;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+            transition: background 0.2s;
         }
 
-        .btn-reiniciar:hover {
+        .btn-acao:hover {
             background-color: #1b5e20;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
         }
 
         /* Rodapé */
@@ -175,20 +222,13 @@
             padding: 2rem;
             margin-top: auto;
             font-size: 0.9rem;
-            color: #a0aec0;
+            color: #718096;
             background-color: #ffffff;
             border-top: 1px solid #e2e8f0;
         }
 
-        /* Responsividade */
         @media (max-width: 500px) {
-            .grid-memoria {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-            }
-            .carta {
-                font-size: 2rem;
-            }
+            .grid-memoria { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -196,61 +236,73 @@
 
     <header>
         <h1>Agrinho Paraná</h1>
-        <p>Incentivando a sustentabilidade, a cidadania e o saber no campo!</p>
+        <p>Unindo Educação, Sustentabilidade e Conhecimento no Campo</p>
     </header>
 
     <main>
-        <section class="sobre">
-            <h2>O que é o Programa Agrinho?</h2>
-            <p>O <b>Agrinho</b> é o maior programa de responsabilidade social do Sistema FAEP/SENAR-PR. Há décadas, ele leva às escolas públicas e particulares do Paraná propostas pedagógicas focadas na ética, sustentabilidade, meio ambiente e na importância da agricultura para o nosso dia a dia.</p>
+        <section>
+            <h2>🌱 Galeria Temática do Programa</h2>
+            <p style="color: #64748b; margin-bottom: 1rem;">Explore os pilares fundamentais trabalhados pelo Agrinho nas escolas do Paraná:</p>
+            <div class="galeria-container">
+                <div class="card-imagem">
+                    <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=500&q=80" alt="Agricultura Familiar">
+                    <p>Vida no Campo & Agricultura</p>
+                </div>
+                <div class="card-imagem">
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=500&q=80" alt="Meio Ambiente">
+                    <p>Sustentabilidade e Preservação</p>
+                </div>
+                <div class="card-imagem">
+                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=500&q=80" alt="Educação">
+                    <p>Cidadania e Saber na Escola</p>
+                </div>
+            </div>
         </section>
 
         <section class="jogo-container">
-            <h2>Jogo da Memória do Agrinho</h2>
-            <p>Encontre os pares dos elementos que fazem parte do nosso ecossistema!</p>
-            
+            <h2>🚜 Jogo da Memória do Agrinho</h2>
+            <p style="color: #64748b; margin-bottom: 1rem;">Encontre os pares dos elementos do nosso ecossistema!</p>
             <div class="placar">Tentativas: <span id="tentativas">0</span></div>
+            <div class="grid-memoria" id="grid"></div>
+            <button class="btn-acao" onclick="reiniciarJogo()">Reiniciar Memória</button>
+        </section>
 
-            <div class="grid-memoria" id="grid">
-                </div>
-
-            <button class="btn-reiniciar" onclick="reiniciarJogo()">Reiniciar Jogo</button>
+        <section class="quiz-container">
+            <h2>📖 Quiz do Conhecimento</h2>
+            <p style="color: #64748b; margin-bottom: 1rem;">Teste seus conhecimentos sobre o campo e o meio ambiente!</p>
+            <div id="quiz-box">
+                <div class="pergunta" id="quiz-pergunta">Carregando pergunta...</div>
+                <div class="opcoes-quiz" id="quiz-opcoes"></div>
+                <button class="btn-acao" id="btn-proximo" style="display:none;" onclick="proximaPergunta()">Próxima Pergunta</button>
+            </div>
         </section>
     </main>
 
     <footer>
-        <p>Interface Educativa Inspirada no Programa Agrinho do Paraná.</p>
+        <p>Interface Educativa e Interativa inspirada no Programa Agrinho Paraná.</p>
     </footer>
 
     <script>
+        /* --- LÓGICA DO JOGO DA MEMÓRIA --- */
         const elementos = ['🌱', '🚜', '📖', '☀️', '🐝', '🍎'];
         let cartasIcones = [...elementos, ...elementos];
-        
         let cartasViradas = [];
         let cartasCombinadas = 0;
         let tentativas = 0;
         const grid = document.getElementById('grid');
         const contadorTentativas = document.getElementById('tentativas');
 
-        function embaralhar(array) {
-            return array.sort(() => Math.random() - 0.5);
-        }
+        function embaralhar(array) { return array.sort(() => Math.random() - 0.5); }
 
         function criarTabuleiro() {
-            grid.innerHTML = '';
-            cartasViradas = [];
-            cartasCombinadas = 0;
-            tentativas = 0;
+            grid.innerHTML = ''; cartasViradas = []; cartasCombinadas = 0; tentativas = 0;
             contadorTentativas.innerText = tentativas;
-
             let cartasEmbaralhadas = embaralhar(cartasIcones);
-
             cartasEmbaralhadas.forEach((icone, index) => {
                 const carta = document.createElement('div');
                 carta.classList.add('carta');
                 carta.dataset.icone = icone;
-                carta.dataset.id = index;
-                carta.innerText = icone; 
+                carta.innerText = icone;
                 carta.addEventListener('click', virarCarta);
                 grid.appendChild(carta);
             });
@@ -260,10 +312,8 @@
             if (cartasViradas.length < 2 && !this.classList.contains('virada') && !this.classList.contains('combinada')) {
                 this.classList.add('virada');
                 cartasViradas.push(this);
-
                 if (cartasViradas.length === 2) {
-                    tentativas++;
-                    contadorTentativas.innerText = tentativas;
+                    tentativas++; contadorTentativas.innerText = tentativas;
                     checarCombinacao();
                 }
             }
@@ -271,32 +321,99 @@
 
         function checarCombinacao() {
             const [carta1, carta2] = cartasViradas;
-
             if (carta1.dataset.icone === carta2.dataset.icone) {
-                carta1.classList.add('combinada');
-                carta2.classList.add('combinada');
-                cartasCombinadas += 2;
-                cartasViradas = [];
-
+                carta1.classList.add('combinada'); carta2.classList.add('combinada');
+                cartasCombinadas += 2; cartasViradas = [];
                 if (cartasCombinadas === cartasIcones.length) {
-                    setTimeout(() => {
-                        alert(`Parabéns! Você completou o Jogo da Memória do Agrinho em ${tentativas} tentativas! 🎉`);
-                    }, 500);
+                    setTimeout(() => { alert(`Boa! Completou a memória em ${tentativas} tentativas! 🎉`); }, 400);
                 }
             } else {
                 setTimeout(() => {
-                    carta1.classList.remove('virada');
-                    carta2.classList.remove('virada');
+                    carta1.classList.remove('virada'); carta2.classList.remove('virada');
                     cartasViradas = [];
                 }, 1000);
             }
         }
 
-        function reiniciarJogo() {
-            criarTabuleiro();
+        function reiniciarJogo() { criarTabuleiro(); }
+
+
+        /* --- LÓGICA DO QUIZ INTERATIVO --- */
+        const perguntasQuiz = [
+            {
+                q: "Qual é o principal objetivo do Programa Agrinho no Paraná?",
+                alt: ["Levar internet para o campo", "Desenvolver ações de sustentabilidade, ética e cidadania nas escolas", "Vender produtos agrícolas"],
+                correta: 1
+            },
+            {
+                q: "Qual inseto é essencial para a polinização das plantações e muito defendido pelo Agrinho?",
+                alt: ["Pernilongo", "Formiga", "Abelha"],
+                correta: 2
+            },
+            {
+                q: "Práticas sustentáveis no campo ajudam a proteger qual recurso natural?",
+                alt: ["Apenas o vento", "A água, o solo e a biodiversidade", "Nenhum, o campo não afeta a natureza"],
+                correta: 1
+            }
+        ];
+
+        let indicePerguntaAtual = 0;
+
+        function carregarQuiz() {
+            const containerPergunta = document.getElementById('quiz-pergunta');
+            const containerOpcoes = document.getElementById('quiz-opcoes');
+            const btnProximo = document.getElementById('btn-proximo');
+            
+            btnProximo.style.display = "none";
+            containerOpcoes.innerHTML = "";
+            
+            let atual = perguntasQuiz[indicePerguntaAtual];
+            containerPergunta.innerText = atual.q;
+
+            atual.alt.forEach((opcao, idx) => {
+                const btn = document.createElement('button');
+                btn.classList.add('btn-opcao');
+                btn.innerText = opcao;
+                btn.onclick = () => responderQuiz(btn, idx, atual.correta);
+                containerOpcoes.appendChild(btn);
+            });
         }
 
+        function responderQuiz(botaoSelecionado, idxSelecionado, idxCorreto) {
+            const botoes = document.querySelectorAll('.btn-opcao');
+            botoes.forEach(b => b.disabled = true); // Desativa os outros botões
+
+            if (idxSelecionado === idxCorreto) {
+                botaoSelecionado.classList.add('correta');
+            } else {
+                botaoSelecionado.classList.add('errada');
+                botoes[idxCorreto].classList.add('correta'); // Mostra a certa
+            }
+            document.getElementById('btn-proximo').style.display = "inline-block";
+        }
+
+        function proximaPergunta() {
+            indicePerguntaAtual++;
+            if (indicePerguntaAtual < perguntasQuiz.length) {
+                carregarQuiz();
+            } else {
+                document.getElementById('quiz-box').innerHTML = "<p style='font-size:1.2rem; font-weight:bold; color:#2e7d32;'>🎉 Parabéns! Você concluiu o Quiz do Agrinho!</p><button class='btn-acao' onclick='reiniciarQuiz()'>Refazer Quiz</button>";
+            }
+        }
+
+        function reiniciarQuiz() {
+            indicePerguntaAtual = 0;
+            document.getElementById('quiz-box').innerHTML = `
+                <div class="pergunta" id="quiz-pergunta">Carregando...</div>
+                <div class="opcoes-quiz" id="quiz-opcoes"></div>
+                <button class="btn-acao" id="btn-proximo" style="display:none;" onclick="proximaPergunta()">Próxima Pergunta</button>
+            `;
+            carregarQuiz();
+        }
+
+        // Inicializa ambos os sistemas
         criarTabuleiro();
+        carregarQuiz();
     </script>
 </body>
 </html>
