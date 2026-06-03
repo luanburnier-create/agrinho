@@ -3,325 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal AgroSustentável - Projeto Agrinho</title>
+    <title>Arcade Interativo Agrinho Paraná</title>
     <style>
+        /* Cores Temáticas e Reset */
         :root {
-            --primary: #2e7d32;
-            --primary-light: #4caf50;
-            --secondary: #f57c00;
-            --background: #f1f8e9;
-            --text: #263238;
-            --white: #ffffff;
+            --verde-escuro: #1b5e20;
+            --verde-principal: #2e7d32;
+            --verde-lima: #8bc34a;
+            --fundo: #f1f8e9;
+            --branco: #ffffff;
+            --texto: #333333;
         }
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--background);
-            color: var(--text);
-            line-height: 1.6;
+            background-color: var(--fundo);
+            color: var(--texto);
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: var(--white);
+            background-color: var(--verde-principal);
+            color: var(--branco);
             text-align: center;
             padding: 2.5rem 1rem;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 0.5rem;
         }
 
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        /* Menu de Abas (Navegação entre Jogos) */
+        .Abas-container {
+            display: flex;
+            justify-content: center;
+            background-color: var(--verde-escuro);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .container {
-            max-width: 1000px;
+        .aba-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+
+        .aba-btn:hover {
+            color: var(--branco);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .aba-btn.ativa {
+            color: var(--branco);
+            border-bottom: 4px solid var(--verde-lima);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        main {
+            max-width: 850px;
             margin: 2rem auto;
             padding: 0 1rem;
         }
 
-        .intro-box {
-            background: var(--white);
+        /* Container dos Jogos */
+        .janela-jogo {
+            background: var(--branco);
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 2rem;
-            border-left: 5px solid var(--secondary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: none; /* Escondido por padrão */
+            text-align: center;
         }
 
-        .intro-box h2 {
-            color: var(--primary);
+        .janela-jogo.ativa {
+            display: block; /* Mostra apenas a aba ativa */
+        }
+
+        .janela-jogo h2 {
+            color: var(--verde-principal);
             margin-bottom: 1rem;
+            font-size: 1.8rem;
         }
 
-        /* Abas dos Jogos */
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            background: #e0e0e0;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px 8px 0 0;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .tab-btn.active {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .game-section {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: 0 12px 12px 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            min-height: 400px;
-            display: none;
-        }
-
-        .game-section.active {
-            display: block;
-        }
-
-        .game-title {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .game-instructions {
-            font-style: italic;
+        .descricao-jogo {
+            color: #666;
             margin-bottom: 1.5rem;
-            color: #546e7a;
         }
 
-        /* JOGO 1: Quiz da Sustentabilidade */
-        .quiz-option {
-            background: #f5f5f5;
-            padding: 1rem;
-            margin: 0.5rem 0;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: 0.2s;
+        /* --- ESTILOS DO JOGO 1: MEMÓRIA --- */
+        .placar {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
         }
 
-        .quiz-option:hover {
-            background: #eee;
-        }
-
-        /* JOGO 2: Memória Sustentável */
-        .memory-grid {
+        .grid-memoria {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-width: 500px;
+            gap: 12px;
+            max-width: 450px;
             margin: 0 auto;
         }
 
-        .memory-card {
-            aspect-ratio: 1;
-            background: var(--primary);
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 5px;
+        .carta {
+            height: 95px;
+            background-color: var(--verde-lima);
             border-radius: 8px;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            color: transparent;
+            transition: transform 0.3s, background-color 0.3s;
             user-select: none;
         }
 
-        .memory-card.flipped {
-            background: var(--secondary);
+        .carta.virada {
+            background-color: var(--branco);
+            border: 2px solid var(--verde-principal);
+            color: initial;
+            transform: rotateY(180deg);
         }
 
-        .memory-card.matched {
-            background: #cfd8dc;
-            color: #90a4ae;
+        .carta.combinada {
+            background-color: #e8f5e9;
+            border: 2px solid #a5d6a7;
+            color: initial;
             cursor: default;
         }
 
-        /* JOGO 3: Defensor da Lavoura */
-        .clicker-box {
-            text-align: center;
-            padding: 2rem;
+        /* --- ESTILOS DO JOGO 2: QUIZ --- */
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
         }
 
-        .target-item {
-            font-size: 3rem;
-            display: inline-block;
-            margin: 1.5rem;
+        .pergunta-texto {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #222;
+        }
+
+        .opcoes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-opcao {
+            background-color: #f5f5f5;
+            border: 2px solid #ddd;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: all 0.2s ease;
         }
 
-        .target-item:hover {
-            transform: scale(1.2);
+        .btn-opcao:hover {
+            background-color: #e2f1e3;
+            border-color: var(--verde-lima);
         }
-
-        .score-board {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-top: 1rem;
-            color: var(--secondary);
-        }
-
-        /* Rodapé de Créditos */
-        footer {
-            background: #263238;
-            color: var(--white);
-            padding: 2rem 1rem;
-            margin-top: 4rem;
-            text-align: center;
-        }
-
-        .credits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 1.5rem auto 0 auto;
-            border-top: 1px solid #37474f;
-            padding-top: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .btn-reset {
-            background: var(--secondary);
-            color: var(--white);
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-
-        /* Responsividade básica */
-        @media (max-width: 600px) {
-            .memory-grid { grid-template-columns: repeat(3, 1fr); }
-            header h1 { font-size: 1.8rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>Portal AgroSustentável</h1>
-        <p>Concurso Agrinho - "Agro forte, futuro sustentável: equilíbrio entre produção e meio ambiente"</p>
-    </header>
-
-    <div class="container">
-        
-        <section class="intro-box">
-            <h2>Tecnologia e Campo em Harmonia</h2>
-            <p>Bem-vindo ao nosso portal gamificado! Desenvolvemos três ferramentas interativas para testar seus conhecimentos sobre como a tecnologia e as boas práticas agrícolas garantem uma produção rica sem prejudicar o nosso planeta.</p>
-        </section>
-
-        <!-- Menu das Abas -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab(0)">1. Quiz do Produtor</button>
-            <button class="tab-btn" onclick="switchTab(1)">2. Memória Verde</button>
-            <button class="tab-btn" onclick="switchTab(2)">3. Defensor da Lavoura</button>
-        </div>
-
-        <!-- JOGO 1: QUIZ -->
-        <div id="game0" class="game-section active">
-            <h3 class="game-title">Quiz do Produtor Sustentável</h3>
-            <p class="game-instructions">Escolha a melhor alternativa para equilibrar ganho e preservação.</p>
-            <div id="quiz-container">
-                <h4 id="quiz-question" style="margin-bottom: 1rem;">Carregando pergunta...</h4>
-                <div id="quiz-options"></div>
-            </div>
-        </div>
-
-        <!-- JOGO 2: MEMÓRIA -->
-        <div id="game1" class="game-section">
-            <h3 class="game-title">Memória Ecológica</h3>
-            <p class="game-instructions">Encontre os pares das práticas corretas que protegem o nosso ecossistema.</p>
-            <div class="memory-grid" id="memory-board"></div>
-            <button class="btn-reset" onclick="initMemoryGame()">Reiniciar Jogo</button>
-        </div>
-
-        <!-- JOGO 3: CLICKER -->
-        <div id="game2" class="game-section">
-            <h3 class="game-title">Defensor da Lavoura</h3>
-            <p class="game-instructions">Ajude o agricultor! Clique apenas nas pragas e ameaças (🐛 e 🦗) para salvar as plantações (🌱). Não clique no broto saudável!</p>
-            <div class="clicker-box">
-                <div id="clicker-stage">
-                    <span class="target-item" onclick="clickTarget('praga')">🐛</span>
-                    <span class="target-item" onclick="clickTarget('planta')">🌱</span>
-                    <span class="target-item" onclick="clickTarget('praga')">🦗</span>
-                </div>
-                <div class="score-board">Pontuação: <span id="clicker-score">0</span></div>
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        <p><strong>Projeto Pedagógico Interativo - Sistema FAEP / SENAR-PR</strong></p>
-        <div class="credits-grid">
-            <div>
-                <strong>Estudantes:</strong>
-                <p>Seu Nome Completo</p>
-                <p>Nome do Colega (se houver)</p>
-            </div>
-            <div>
-                <strong>Orientação:</strong>
-                <p>Prof. Nome do Professor</p>
-            </div>
-            <div>
-                <strong>Instituição:</strong>
-                <p>Nome da Sua Escola</p>
-                <p>Cidade - PR | Série / Ano</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Sistema de Abas
-        function switchTab(index) {
-            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.classList.toggle('active', i === index);
-            });
-            document.querySelectorAll('.game-section').forEach((sec, i) => {
-                sec.classList.toggle('active', i === index);
-            });
-            if(index === 1) initMemoryGame();
-        }
-
-        // LÓGICA JOGO 1: QUIZ
-        const quizData = [
-            {
-                q: "Qual técnica ajuda a plantar sem desgastar e remover a camada protetora do solo?",
-                o: ["Plantio Direto", "Queimada Controlada", "Arado Profundo"],
-                a: 0
-            },
-            {
-                q: "Como a tecnologia ajuda a economizar água na irrigação?",
-                o: ["Regando o dia todo", "Sensores de umidade no solo", "Canais abertos de água"],
-                a: 1
